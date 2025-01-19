@@ -1,5 +1,5 @@
 import { WebSocket, WebSocketServer } from "ws";
-import { IncomingMessageType } from "./lib/types";
+import { IncomingMessageType, OutgoingMessageType } from "./lib/types";
 import {
   TypesOfOutgoingMessages,
   TypesOfSupportedIncomingMessages,
@@ -18,7 +18,6 @@ wss.on("connection", function connection(ws) {
     // TODO: add rate limitting logic here
     try {
       messageHandler(ws, JSON.parse(data.toString()));
-      console.log("within the index.js ::: input message ", data.toString());
     } catch (error) {
       console.error(error);
     }
@@ -29,21 +28,29 @@ wss.on("connection", function connection(ws) {
 
 const messageHandler = (socket: WebSocket, message: IncomingMessageType) => {
   if (message.type === TypesOfSupportedIncomingMessages.JoinRoom) {
-    const payload = message.payload;
-    if (payload.roomId) {
-      roomManager.addUser(payload.roomId, socket);
-    } else if (payload.donorId && payload.applicantId) {
-      const roomId = generateRoomId(payload.donorId, payload.applicantId);
-      roomManager.addUser(roomId, socket);
-    } else {
-      console.error("Incorrect message type");
+    try {
+      const payload = message.payload;
+      if (payload.roomId) {
+        roomManager.addUser(payload.roomId, socket);
+      } else if (payload.donorId && payload.applicantId) {
+        const roomId = generateRoomId(payload.donorId, payload.applicantId);
+        roomManager.addUser(roomId, socket);
+      } else {
+        console.error("Incorrect message type");
+      }
+    } catch (error) {
+      console.error("Error while joining a room", error);
     }
   } else if (message.type === TypesOfSupportedIncomingMessages.SendMessage) {
-    const payload = message.payload;
-    const outgoingMessage = {
-      type: TypesOfOutgoingMessages.AddChat,
-      payload: { message: payload.message, senderId: payload.senderId },
-    };
-    roomManager.broadcast(payload.roomId, outgoingMessage);
+    try {
+      const payload = message.payload;
+      const outgoingMessage: OutgoingMessageType = {
+        type: TypesOfOutgoingMessages.AddChat,
+        payload,
+      };
+      roomManager.broadcast(payload.roomId, outgoingMessage);
+    } catch (error) {
+      console.error("Error while sending messages", error);
+    }
   }
 };

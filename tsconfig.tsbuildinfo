@@ -1,1 +1,1 @@
-{"root":["./src/RoomManager.ts","./src/index.ts","./src/lib/types.ts","./src/lib/utils.ts","./src/lib/validators.ts","./src/store/InMemoryStore.ts","./src/store/Store.ts"],"version":"5.7.3"}
+{"root":["./src/RoomManager.ts","./src/index.ts","./src/lib/types.ts","./src/lib/utils.ts","./src/lib/validators.ts"],"version":"5.7.3"}

@@ -21,5 +21,3 @@ export type OutgoingMessageType = {
   type: TypesOfOutgoingMessages.AddChat;
   payload: z.infer<typeof OutgoingMessageSchema>;
 };
-
-export type ChatMessageType = z.infer<typeof OutgoingMessageSchema>;

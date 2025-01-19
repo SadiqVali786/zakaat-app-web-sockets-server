@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { z } from "zod";
 
 // IN COMING MESSAGES
 export enum TypesOfSupportedIncomingMessages {
@@ -27,4 +27,5 @@ export const OutgoingMessageSchema = z.object({
   // id: z.string(),
   message: z.string(),
   senderId: z.string(),
+  roomId: z.string(),
 });
