@@ -6,7 +6,7 @@
 	  yarn tsc --init
 4. Update tsconfig.json
 	  "outDir": "./dist",
-    "module": "commonjs",
+    "rootDir": "./src",
 5. Create the src/index.ts File
 	  mkdir src
 	  echo "// Your TypeScript code here" > src/index.ts
@@ -15,12 +15,13 @@
 7. Add a Development Script
     "scripts": {
         "dev": "tsc -b --watch & nodemon ./dist/index.js"
-    }
+    },
 8. Run the Dev Script
+    yarn install
     yarn dev
 9. create README.md & .gitignore files
 10. create a new git repo and synch with it
 
 11. Install supporting packages express, zod, ws and its Types
-    yarn add ws, zod, express
+    yarn add ws zod express
     yarn add @types/ws --dev
